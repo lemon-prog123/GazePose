@@ -3,7 +3,7 @@
 
 ## Pipeline
 
-![pipeline](imgs/pipeline.png)
+![pipeline](imgs/new_pipeline.png)
 
 ## Requiments
 - pytorch
