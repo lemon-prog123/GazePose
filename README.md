@@ -1,12 +1,15 @@
 # GazePose
 
+
+## Pipeline
+
+![pipeline](imgs/pipeline.png)
+
 ## Requiments
 - pytorch
 - opencv
 - mediapipe
 - numpy
-
-
 
 ## Quick Start
 
