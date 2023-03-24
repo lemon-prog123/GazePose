@@ -43,7 +43,8 @@ We use 'uid-trackid-frameid' as keys in our headpose annations. Please refer to 
 
 For the annations of facial landmarks, we use model in [mediapipe](https://github.com/google/mediapipe) and run it on face crops. And we provide the code to predict landmarks for Ego4D in [meshp.py](meshp.py).
 
-For the Gaussian Temporal Dropout, we can obtain images' quality through [vartool.py](vartool.py) and also can obtain the distribution for each split. And we release our filter JSON FILE for train set later in [train_filter](https://www.aliyundrive.com/s/cfQFkMvkzUX). Please download it and change the value of "filter_file" in [config.py](common/config.py).
+For the Gaussian Temporal Dropout, we can obtain images' quality through [vartool.py](vartool.py) and also can obtain the distribution for each split. 
+We release our filter JSON FILE for train set. [train_filter](https://www.aliyundrive.com/s/cfQFkMvkzUX) Please download it and change the value of "filter_file" in [config.py](common/config.py).
 
 Please use above code and files to obtain the prior json files, put them in the same directory and change the value "prior_path" in [config.py](common/config.py).
 ### Train
@@ -66,7 +67,7 @@ You can use:
 bash poseval.sh
 bash baseval.sh
 ```
-To simply start a inference process, specific ```--checkpoint [your checkpoint]``` to choose your checkpoint for evaluate on GazePose or Baseline. We provide a pretrained checkpoint for [GazePose](https://disk.pku.edu.cn:443/link/42B9E356F3D182E30CC96342A2DBB98E)
+To simply start a inference process, specific ```--checkpoint [your checkpoint]``` to choose your checkpoint for evaluate on GazePose or Baseline. We provide a pretrained checkpoint for GazePose. [model](https://disk.pku.edu.cn:443/link/42B9E356F3D182E30CC96342A2DBB98E)
 The argument ```--val``` will start a evaluate on validation dataset and the argument ```--eval``` will start a evaluate on test dataset.
 
 Specially, the test set of [*Ego4D*](https://github.com/EGO4D/social-interactions/tree/lam) should be placed as follows:
