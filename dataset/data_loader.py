@@ -276,7 +276,7 @@ class ImagerLoader(torch.utils.data.Dataset):
                 self.p_dict=json.load(f)
 
         if args.Gaussiandrop and mode=='train':
-            file=open(os.path.join(args.prior_path,'train_filter_all.json'),'r')
+            file=open(args.filter_file,'r')
             logger.info('Set Train Filter')
             self.dic=json.load(file)
             file.close()
