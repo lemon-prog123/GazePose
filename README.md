@@ -1,6 +1,13 @@
 # GazePose
 In this work, we introduce GazePose, a novel unified framework with an that improves eye contact detection by aggregating pose-related prior knowledge via a crossattention mechanism. To our knowledge, GazePose is the first framework to integrate 3D head pose and 2D facial landmarks as cues to obtain more accurate and robust representations for eye contact detection.
 
+## Main Results
+
+| Model |  Ego4D (mAP)  |                         url                          | 
+| :-----: | :---: | :--------------------------------------------------: |
+|  GazePose  |   76.29 | [model](https://disk.pku.edu.cn:443/link/42B9E356F3D182E30CC96342A2DBB98E) | 
+|  Baseline  |  71.92 | [model](https://disk.pku.edu.cn:443/link/42B9E356F3D182E30CC96342A2DBB98E)  |
+
 ## Pipeline
 
 ![pipeline](imgs/new_pipeline.png)
