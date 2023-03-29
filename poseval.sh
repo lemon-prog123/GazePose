@@ -5,6 +5,8 @@ export CUDA_VISIBLE_DEVICES=9
 nohup python -u run.py
 --Gaussiandrop
 --mesh
+--prior_head
+--prior_landmark
 --backbone resnet18
 --split 1
 --batch_size 64

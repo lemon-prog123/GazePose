@@ -34,20 +34,30 @@ class GazePose(nn.Module):
         print('dMoel')
         print(dmodel)
 
-        print("Num Queries: "+str(num_query))
     
         num_tgt=0
+        
+        if args.prior_head:
+            print("Num Queries: "+str(num_query))
+            self.yaw_embed=nn.Embedding(num_query,dmodel)
+            self.pitch_embed=nn.Embedding(num_query,dmodel)
+            self.roll_embed=nn.Embedding(num_query,dmodel)
+        else:
+            self.head_query=nn.Parameter(torch.randn(3,dmodel))
+        
 
-        self.yaw_embed=nn.Embedding(num_query,dmodel)
-        self.pitch_embed=nn.Embedding(num_query,dmodel)
-        self.roll_embed=nn.Embedding(num_query,dmodel)
+
         num_tgt=3
 
-        num_line=int(4/self.args.dsplit)+1
-        num_net=num_line*num_line
-        print("Num net "+str(num_net))
-        self.joint_embed=nn.Embedding(num_net,dmodel//2)
-        self.c_embed=nn.Embedding(int(1/args.csplit)+1,dmodel//2)
+        if args.prior_landmark:
+            num_line=int(4/self.args.dsplit)+1
+            num_net=num_line*num_line
+            print("Num net "+str(num_net))
+            self.joint_embed=nn.Embedding(num_net,dmodel//2)
+            self.c_embed=nn.Embedding(int(1/args.csplit)+1,dmodel//2)
+        else:
+            self.landmark_query=nn.Parameter(torch.randn(5,dmodel))
+        
         num_tgt+=5
 
         print("Num Target: "+str(num_tgt))
@@ -110,13 +120,22 @@ class GazePose(nn.Module):
             max_index=3
             
         tgt=self.headpos_emeb.repeat((B,1,1)).cuda()
-        yaw_query=self.yaw_embed(query[:,0]).unsqueeze(1)
-        pitch_query=self.pitch_embed(query[:,1]).unsqueeze(1)
-        roll_query=self.roll_embed(query[:,2]).unsqueeze(1)
-        joint_query=self._jointindex(head2D)
-        query=torch.cat((yaw_query,pitch_query,roll_query,joint_query),1)
 
-            
+        if self.args.prior_head:
+            yaw_query=self.yaw_embed(query[:,0]).unsqueeze(1)
+            pitch_query=self.pitch_embed(query[:,1]).unsqueeze(1)
+            roll_query=self.roll_embed(query[:,2]).unsqueeze(1)
+            head_query=torch.cat((yaw_query,pitch_query,roll_query),1)
+        else:
+            head_query=self.head_query.unsqueeze(0).repeat((B,1,1))
+
+        if self.args.prior_landmark:
+            landmark_query=self._jointindex(head2D)
+        else:
+            landmark_query=self.landmark_query.unsqueeze(0).repeat((B,1,1))
+
+        query=torch.cat((head_query,landmark_query),1)
+
         base_out,x=self.base_model(input.view((-1, 3) + input.size()[-2:]))
         x=x.view(B,7,self.out_dim,7,7)[:,3]
         b, c, h, w =x.shape
