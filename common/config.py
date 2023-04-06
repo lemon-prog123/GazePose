@@ -18,7 +18,7 @@ argparser.add_argument('--train_stride', type=int, default=3, help='Train subsam
 argparser.add_argument('--val_stride', type=int, default=13, help='Validation subsampling rate')
 argparser.add_argument('--test_stride', type=int, default=1, help='Test subsampling rate')
 argparser.add_argument('--split',type=float, default=1, help='Split')
-argparser.add_argument('--epochs', type=int, default=20, help='Maximum epoch')
+argparser.add_argument('--epochs', type=int, default=10, help='Maximum epoch')
 argparser.add_argument('--backbone', type=str, default='resnet18', help='Model')
 argparser.add_argument('--Gaussiandrop', action='store_true', help='Gaussian')
 argparser.add_argument('--batch_size', type=int, default=64, help='Batch size')
