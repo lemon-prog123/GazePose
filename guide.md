@@ -66,11 +66,11 @@ data/
   * 007beb60-cbab-4c9e-ace4-f5f1ba73fccf.mp4
   * ...
 * json_prior/
-  *train_mesh.json
-  *val_mesh.json
-  *test_mesh.json
-  *train_headpose.json
-  *...
+  * train_mesh.json
+  * val_mesh.json
+  * test_mesh.json
+  * train_headpose.json
+  * ...
 * video_imgs/
   * face_imgs/
     * uid
