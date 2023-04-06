@@ -276,7 +276,7 @@ class ImagerLoader(torch.utils.data.Dataset):
                 self.p_dict=json.load(f)
 
         if args.Gaussiandrop and mode=='train':
-            file=open(args.filter_file,'r')
+            file=open(os.path.join(args.prior_path,'train_filter_all.json'),'r')
             logger.info('Set Train Filter')
             self.dic=json.load(file)
             file.close()
@@ -402,7 +402,7 @@ class ImagerLoader(torch.utils.data.Dataset):
                     p=self.p_dict[uid][trackid][str(i)]
                 except:
                     p=1
-                if random.random() > p:
+                if random.random() > p+0.2:
                     Gaussian_flag=True
             elif self.args.Gaussiandrop and i!=frameid and self.mode=="val":
                 try:

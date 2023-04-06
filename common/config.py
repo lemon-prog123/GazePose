@@ -2,20 +2,18 @@ import argparse
 
 argparser = argparse.ArgumentParser(description='Ego4d Social Benchmark')
 
-argparser.add_argument('--source_path', type=str, default='../social-interactions/data/video_imgs', help='Video image directory')
-argparser.add_argument('--json_path', type=str, default='../social-interactions/data/json_original', help='Face tracklets directory')
+argparser.add_argument('--source_path', type=str, default='./data/video_imgs', help='Video image directory')
+argparser.add_argument('--json_path', type=str, default='./data/json_original', help='Face tracklets directory')
 argparser.add_argument('--test_path', type=str, default='../videos_challenge', help='Test set')
-argparser.add_argument('--gt_path', type=str, default='../social-interactions/data/result_LAM', help='Groundtruth directory')
-argparser.add_argument('--train_file', type=str, default='../social-interactions/data/split/train.list', help='Train list')
-argparser.add_argument('--val_file', type=str, default='../social-interactions/data/split/val.list', help='Validation list')
-argparser.add_argument('--prior_path',type=str, default='../social-interactions', help='Prior Jsons')
-argparser.add_argument('--face_path',type=str, default='../social-interactions/data/face_imgs', help='Prior Jsons')
+argparser.add_argument('--gt_path', type=str, default='./data/result_LAM', help='Groundtruth directory')
+argparser.add_argument('--train_file', type=str, default='./data/split/train.list', help='Train list')
+argparser.add_argument('--val_file', type=str, default='./data/split/val.list', help='Validation list')
+argparser.add_argument('--prior_path',type=str, default='./data/json_prior', help='Prior Jsons')
+argparser.add_argument('--face_path',type=str, default='./data/face_imgs', help='Prior Jsons')
+
 argparser.add_argument('--mesh', action='store_true', help='Load all prior data')
 argparser.add_argument('--prior_head', action='store_true', help='Use head prior')
 argparser.add_argument('--prior_landmark', action='store_true', help='Use landmark prior')
-
-
-
 argparser.add_argument('--train_stride', type=int, default=3, help='Train subsampling rate')
 argparser.add_argument('--val_stride', type=int, default=13, help='Validation subsampling rate')
 argparser.add_argument('--test_stride', type=int, default=1, help='Test subsampling rate')

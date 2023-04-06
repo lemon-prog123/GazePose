@@ -1,5 +1,83 @@
 # GazePose
 
+
+## Data Pre-processing
+首先参照[Ego4D官方教程](https://github.com/EGO4D/social-interactions/blob/lam/README.md) ,对原始文件进行如下组织
+
+data/
+* csv/
+  * manifest.csv
+* json/
+  * av_train.json
+  * av_val.json
+* split/
+  * train.list
+  * val.list
+* videos/
+  * 00407bd8-37b4-421b-9c41-58bb8f141716.mp4
+  * 007beb60-cbab-4c9e-ace4-f5f1ba73fccf.mp4
+  * ...
+
+接下来执行官方提供的.sh文件进行数据预处理
+```
+bash scripts/extract_frame.sh
+python scripts/preprocessing.py
+```
+你将会得到video_imgs文件夹，其中放有数据集中每一帧图片，但是还未处理成人脸截图。为了使用方便，你可以选择将每张人脸视为可被如下三元组唯一标记:
+```
+[uid-trackid-frameid]
+```
+其中uid代表视频id，trackid是在经过人脸追踪后分段的人脸Track ID，frameid即是对应原始视频中的帧号，我们按照这种三元组重新组织整个图片目录:
+
+```
+*data/
+  * face_imgs/
+    * uid
+      * trackid
+        * face_xxxxx.jpg
+```
+其中每一张图片都是根据标注的[bbox](dataset/data_loader.py)截取的224*224的人脸截图。
+
+其次，需要修改 [config.py](common/config.py)，默认目录都为./data/
+
+
+对于先验数据，我们有三个部分的预处理先验数据，分别是头部姿势，面部关键点，时间轴上的质量选择先验
+
+我们利用了[deep-head-pose](https://github.com/natanielruiz/deep-head-pose)作为头部姿势检测模型，对于每一张人脸图片，其给出了偏转角，俯仰角，翻滚角的预测，具体操作流程可以参考 [headpose.py](headpose.py).
+
+我们利用了[mediapipe](https://github.com/google/mediapipe)作为面部关键点检测模型，对于每一张人脸图片，其给出了左右眼，鼻子，左右嘴唇的预测，具体操作流程可以参考 [mesh.py](mesh.py).
+
+对于人脸质量评估，我们对数据集的三个划分都进行了质量评估，并且拟合了高斯分布，具体参考 [vartool.py](vartool.py).
+
+
+对于训练集，验证集和测试集，我们都需要给出其先验文件，我们在[阿里云盘](https://www.aliyundrive.com/s/15uuWKE6gWc) 给出了这些先验文件，可以直接使用，当获取所有先验文件以后，将其放入./data/json_prior目录。
+
+data/
+* csv/
+  * manifest.csv
+* json/
+  * av_train.json
+  * av_val.json
+* split/
+  * train.list
+  * val.list
+* videos/
+  * 00407bd8-37b4-421b-9c41-58bb8f141716.mp4
+  * 007beb60-cbab-4c9e-ace4-f5f1ba73fccf.mp4
+  * ...
+* json_prior/
+  *train_mesh.json
+  *val_mesh.json
+  *test_mesh.json
+  *train_headpose.json
+  *...
+* video_imgs/
+  * face_imgs/
+    * uid
+      * trackid
+        * face_xxxxx.jpg
+  
+
 ## Training
 For GazePose
 ```sh
