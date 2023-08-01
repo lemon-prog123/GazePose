@@ -90,18 +90,17 @@ def main(args):
     if not args.eval and not args.val:
         logger.info('start training')
         steps=0
-        postprocess_train = PostProcessor(args,mode='train')
         val_params={'val_loader':val_loader,'model':model,'postprocess':None,'args':args,
             'mode':'val','weight':class_weights}
         
         for epoch in range(args.epochs):
+            postprocess_train = PostProcessor(args,mode='train')
             loss,mAP,steps,mAP_epoch,global_step=train(train_loader, model, criterion, optimizer, epoch,postprocess_train,
                                                     args,CosineLR,steps,num_steps,val_params=val_params,best_mAP=best_mAP,global_step=global_step)
             best_mAP = max(best_mAP, mAP_epoch)
             train_loss.append(loss)
             train_map.append(mAP)
             logger.info(f'mAP: {mAP:.4f}')
-
             postprocess_val = PostProcessor(args)
             mAP,loss = validate(val_loader,model, postprocess_val, args=args,mode='val',weight=class_weights)
             val_map.append(mAP)
